@@ -263,7 +263,7 @@ autoinstall:
     - libpam-u2f
     - librtlsdr0
     - lm-sensors
-    - mycli
+    - mysql-shell
     - netcat-openbsd
     - nmap
     - nvme-cli
