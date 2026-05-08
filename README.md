@@ -31,7 +31,6 @@ Complemented with dotfiles management via [`chezmoi`](https://github.com/f-bn/do
 
 | Device | Type | OS | Hardware | Configuration |
 |--------|------|----|---------| --------------|
-
 | **[proton](./servers/proton/)** | Server | Ubuntu 24.04 LTS | ASRock DeskMini X300 | [autoinstall.user-data](./servers/proton/autoinstall.user-data) |
 
 ## 🚀 Quick Start
