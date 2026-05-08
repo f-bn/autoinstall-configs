@@ -252,6 +252,7 @@ autoinstall:
     - fonts-cascadia-code
     - fq
     - fzf
+    - gamescope
     - gawk
     - git
     - httpie
@@ -261,6 +262,7 @@ autoinstall:
     - libjpeg-dev
     - libpam-u2f
     - lm-sensors
+    - mangohud
     - mysql-shell
     - netcat-openbsd
     - nmap
