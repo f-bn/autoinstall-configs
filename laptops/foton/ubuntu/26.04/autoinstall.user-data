@@ -243,6 +243,7 @@ autoinstall:
     - bind9-dnsutils
     - bind9-host
     - brave-browser
+    - btop
     - code
     - curl
     - docker-ce
