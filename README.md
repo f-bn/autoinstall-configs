@@ -22,15 +22,16 @@ Complemented with dotfiles management via [`chezmoi`](https://github.com/f-bn/do
 ## 📦 Available Configurations
 
 | Device | Type | OS | Hardware | Configuration |
-|--------|------|----|---------| --------------|
-| **[foton](./laptops/foton/)** | Laptop | Ubuntu 26.04 | Thinkpad P14s Gen 5 | [autoinstall.user-data](./laptops/foton/26.04/autoinstall.user-data) |
-| **[soyuz](./servers/soyuz/)** | Server | Fedora CoreOS 43 | Beelink SER5 PRO | [ignition.yaml](./servers/soyuz/ignition.yaml) |
+|--------|------|----|----------| --------------|
+| **[buran](./desktops/buran/)** | Desktop | Ubuntu 26.04 | Custom desktop build | [autoinstall.user-data](./desktops/buran/ubuntu/26.04/autoinstall.user-data) |
+| **[foton](./laptops/foton/)**  | Laptop | Ubuntu 26.04 | Thinkpad P14s Gen 5 | [autoinstall.user-data](./laptops/foton/ubuntu/26.04/autoinstall.user-data) |
+| **[soyuz](./servers/soyuz/)**  | Server | Fedora CoreOS 43 | Beelink SER5 PRO | [ignition.yaml](./servers/soyuz/ignition.yaml) |
 
 ### Legacy Configurations
 
 | Device | Type | OS | Hardware | Configuration |
 |--------|------|----|---------| --------------|
-| **[buran](./desktops/buran/)** | Desktop | Windows 11 24H2 | Custom build | [unattended.xml](./desktops/buran/win11/unattended.xml) |
+
 | **[proton](./servers/proton/)** | Server | Ubuntu 24.04 LTS | ASRock DeskMini X300 | [autoinstall.user-data](./servers/proton/autoinstall.user-data) |
 
 ## 🚀 Quick Start
