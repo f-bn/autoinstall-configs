@@ -265,6 +265,7 @@ autoinstall:
     - netcat-openbsd
     - nmap
     - nvme-cli
+    - nvtop
     - pgcli
     - pipx
     - python3-pip
@@ -311,9 +312,6 @@ autoinstall:
       channel: stable
     - name: nicotine-plus
       channel: stable
-    # https://bugs.launchpad.net/ubuntu/+source/mutter/+bug/2147501
-    #- name: steam
-    #  channel: stable
   # - Storage -
   storage:
     swap:
@@ -376,6 +374,47 @@ autoinstall:
         type: mount
         device: nvme-root-fs
         path: /
+      ### Additional disks
+      - id: sata0-disk
+        type: disk
+        serial: Samsung_SSD_860_EVO_1TB_S3Z9NB0NA83083J
+        ptable: gpt
+        preserve: false
+        wipe: false
+      - id: sata0-part
+        type: partition
+        device: sata0-disk
+        number: 1
+        size: -1
+      - id: sata0-fs
+        type: format
+        volume: sata0-part
+        fstype: ext4
+      - id: sata0-mount
+        type: mount
+        device: sata0-fs
+        path: /mnt/S1
+        options: noatime,x-gvfs-show
+      - id: sata1-disk
+        type: disk
+        serial: Samsung_SSD_860_EVO_1TB_S4X6NF0M830777B
+        ptable: gpt
+        preserve: false
+        wipe: false
+      - id: sata1-part
+        type: partition
+        device: sata1-disk
+        number: 1
+        size: -1
+      - id: sata1-fs
+        type: format
+        volume: sata1-part
+        fstype: ext4
+      - id: sata1-mount
+        type: mount
+        device: sata1-fs
+        path: /mnt/S2
+        options: noatime,x-gvfs-show
   # - Late commands -
   late-commands:
     # Install Feishin
@@ -426,7 +465,7 @@ autoinstall:
           #
           # Disable zswap to avoid "conflict" with zram
           GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT zswap.enabled=0"
-      - path: /etc/module-load.d/ntsync.conf
+      - path: /etc/modules-load.d/ntsync.conf
         owner: 'root:root'
         permissions: '0644'
         content: |
@@ -536,6 +575,9 @@ autoinstall:
           exec /usr/bin/brave-browser "$@" "${USER_FLAGS[@]-}"
     # Final commands
     runcmd:
+      ### Ensure correct permissions are set on additional disks
+      - chown -R fbobin:fbobin /mnt/S1 /mnt/S2
+      - chmod 0750 /mnt/S1 /mnt/S2
       ### Uninstall Firefox snap
       - snap remove --purge firefox
       ### Refresh base snaps
