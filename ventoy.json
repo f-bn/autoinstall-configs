@@ -1,35 +1,24 @@
 {
     "auto_install":[
         {
+            "image": "/ubuntu-**.**-desktop-******.iso",
+            "template": [
+                "/autoinstall/laptops/foton/ubuntu/26.04/autoinstall.user-data",
+                "/autoinstall/desktops/buran/ubuntu/26.04/autoinstall.user-data"
+            ]
+        },
+        {
             "image": "/ubuntu-**.**-desktop.iso",
             "template": [
-                "/autoinstall/laptops/foton/25.10/autoinstall.user-data",
-                "/autoinstall/laptops/foton/26.04/autoinstall.user-data"
+                "/autoinstall/laptops/foton/ubuntu/26.04/autoinstall.user-data",
+                "/autoinstall/desktops/buran/ubuntu/26.04/autoinstall.user-data"
             ]
         },
         {
-            "image": "/ubuntu-**.**.*-desktop.iso",
+            "image": "/fedora-**.iso",
             "template": [
-                "/autoinstall/laptops/foton/25.10/autoinstall.user-data",
-                "/autoinstall/laptops/foton/26.04/autoinstall.user-data"
-            ]
-        },
-        {
-            "image": "/ubuntu-**.**-server.iso",
-            "template": [
-                "/autoinstall/servers/proton/autoinstall.user-data"
-            ]
-        },
-        {
-            "image": "/ubuntu-**.**.*-server.iso",
-            "template": [
-                "/autoinstall/servers/proton/autoinstall.user-data"
-            ]
-        },
-        {
-            "image": "/win11-****.iso",
-            "template": [
-                "/autoinstall/desktops/buran/win11/unattended.xml"
+                "/autoinstall/desktops/buran/fedora/44/kickstart.ks",
+                "/autoinstall/laptops/foton/fedora/44/kickstart.ks"
             ]
         }
     ]

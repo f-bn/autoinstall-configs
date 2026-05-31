@@ -13,17 +13,13 @@
 
 This repository contains automated installation and provisioning configurations for my personal devices running Linux and Windows.
 
-- 🔧 **Automated setup** - Fully unattended installations with minimal user interaction
-- 🖥️ **Multi-platform** - Supports Ubuntu (bare-metal and WSL2), Fedora CoreOS and Windows
-- 🔄 **Version-controlled** - Track and manage configuration changes over time
-
 Complemented with dotfiles management via [`chezmoi`](https://github.com/f-bn/dotfiles).
 
 ## 📦 Available Configurations
 
 | Device | Type | OS | Hardware | Configuration |
 |--------|------|----|----------| --------------|
-| **[buran](./desktops/buran/)** | Desktop | Ubuntu 26.04 | Custom desktop build | [autoinstall.user-data](./desktops/buran/ubuntu/26.04/autoinstall.user-data) |
+| **[buran](./desktops/buran/)** | Desktop | Fedora 44 | Custom desktop build | [kickstart.ks](./desktops/buran/fedora/44/kickstart.ks) |
 | **[foton](./laptops/foton/)**  | Laptop | Ubuntu 26.04 | Thinkpad P14s Gen 5 | [autoinstall.user-data](./laptops/foton/ubuntu/26.04/autoinstall.user-data) |
 | **[soyuz](./servers/soyuz/)**  | Server | Fedora CoreOS 43 | Beelink SER5 PRO | [ignition.yaml](./servers/soyuz/ignition.yaml) |
 
@@ -40,8 +36,8 @@ Complemented with dotfiles management via [`chezmoi`](https://github.com/f-bn/do
 All physical installations leverage Ventoy's `autoinstall` plugin to automatically pass configuration files to the respective installers:
 
 - **Ubuntu (Desktop/Server)** - Subiquity format (`user-data`, inspired by Cloud-Init)
+- **Fedora** - Kickstart format (`kickstart.ks`)
 - **Fedora CoreOS** - Ignition format (`ignition.yaml`)
-- **Windows** - `autounattend.xml` format
 
 #### Ventoy setup
 
@@ -51,25 +47,30 @@ Create the following structure in the Ventoy partition:
 /autoinstall/
 ├── desktops/
 │   └── buran/
-│       ├── 26.04/
-│       │   └── autoinstall.user-data
-│       └── win11/
-│           └── unattended.xml
+│       ├── ubuntu/
+│       │   └── 26.04/
+│       │       └── autoinstall.user-data
+│       └── fedora/
+│           └── 44/
+│               └── kickstart.ks
+│
 ├── laptops/
 │   └── foton/
-│       ├── 25.10/
-│       │   └── autoinstall.user-data
-│       └── 26.04/
-│           └── autoinstall.user-data
+│       ├── ubuntu/
+│       │   └── 26.04/
+│       │       └── autoinstall.user-data
+│       └── fedora/
+│           └── 44/
+│               └── kickstart.ks
+│
 ├── servers/
 │   └── proton/
 │       └── autoinstall.user-data
 /ventoy/
 └── ventoy.json
+fedora-44.iso
 ubuntu-24.04.4-server.iso
-ubuntu-25.10-desktop.iso
 ubuntu-26.04-desktop.iso
-win11-24h2.iso
 ...
 ```
 
@@ -79,23 +80,31 @@ Create a `ventoy.json` file to map ISOs to unattended configuration files:
 {
     "auto_install":[
         {
-            "image": "/ubuntu-**.**-desktop.iso",
+            "image": "/ubuntu-**.**-desktop-******.iso",
             "template": [
-                "/autoinstall/laptops/foton/25.10/autoinstall.user-data",
-                "/autoinstall/laptops/foton/26.04/autoinstall.user-data"
+                "/autoinstall/laptops/foton/ubuntu/26.04/autoinstall.user-data",
+                "/autoinstall/desktops/buran/ubuntu/26.04/autoinstall.user-data"
             ]
         },
         {
-            "image": "/win11_****.iso",
+            "image": "/ubuntu-**.**-desktop.iso",
             "template": [
-                "/autoinstall/desktops/buran/unattended.xml"
+                "/autoinstall/laptops/foton/ubuntu/26.04/autoinstall.user-data",
+                "/autoinstall/desktops/buran/ubuntu/26.04/autoinstall.user-data"
+            ]
+        },
+        {
+            "image": "/fedora-**.iso",
+            "template": [
+                "/autoinstall/desktops/buran/fedora/44/kickstart.ks",
+                "/autoinstall/laptops/foton/fedora/44/kickstart.ks"
             ]
         }
     ]
 }
 ```
 
-Boot the USB key, select an ISO, and choose the automated installation option.
+Boot the USB key, select an ISO, and choose the desired automated installation option.
 
 ## 📚 References
 
