@@ -1,7 +1,14 @@
 [tasks."tests:foton"]
-description = "Run unattended installation test for 'foton' device"
+description = "Run Ubuntu unattended installation test for 'foton' device"
 run = [
   "tests/ubuntu/launch.sh --device foton --iso tests/ubuntu/ubuntu-26.04.iso --userdata laptops/foton/ubuntu/26.04/autoinstall.user-data",
+  "rm -rf .cache/foton"
+]
+
+[tasks."tests:foton:fedora"]
+description = "Run Fedora unattended installation test for 'foton' device"
+run = [
+  "tests/fedora/launch.sh --device foton --iso tests/fedora/fedora-44.iso --kickstart laptops/foton/fedora/44/kickstart.ks",
   "rm -rf .cache/foton"
 ]
 

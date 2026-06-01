@@ -20,7 +20,7 @@ Complemented with dotfiles management via [`chezmoi`](https://github.com/f-bn/do
 | Device | Type | OS | Hardware | Configuration |
 |--------|------|----|----------| --------------|
 | **[buran](./desktops/buran/)** | Desktop | Fedora 44 | Custom desktop build | [kickstart.ks](./desktops/buran/fedora/44/kickstart.ks) |
-| **[foton](./laptops/foton/)**  | Laptop | Ubuntu 26.04 | Thinkpad P14s Gen 5 | [autoinstall.user-data](./laptops/foton/ubuntu/26.04/autoinstall.user-data) |
+| **[foton](./laptops/foton/)**  | Laptop | Fedora 44 | Thinkpad P14s Gen 5 | [autoinstall.user-data](./laptops/foton/ubuntu/26.04/autoinstall.user-data) |
 | **[soyuz](./servers/soyuz/)**  | Server | Fedora CoreOS 43 | Beelink SER5 PRO | [ignition.yaml](./servers/soyuz/ignition.yaml) |
 
 ### Legacy Configurations
