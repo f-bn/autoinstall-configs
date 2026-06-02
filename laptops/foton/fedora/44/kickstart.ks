@@ -74,6 +74,7 @@ fzf
 gawk
 gnome-extensions-app
 gnome-tweaks
+gnome-shell-extension-appindicator
 gnome-shell-extension-dash-to-dock
 helm
 httpie
