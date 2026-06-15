@@ -23,7 +23,7 @@ firewall --enabled
 # - Storage -
 clearpart --drives=nvme0n1 --all
 partition /boot/efi --ondisk=nvme0n1 --fstype=vfat --size=512
-partition /boot     --ondisk=nvme0n1 --fstype=ext4 --size=1024 
+partition /boot     --ondisk=nvme0n1 --fstype=ext4 --size=1024
 partition /         --ondisk=nvme0n1 --fstype=ext4 --grow --encrypted --passphrase="<redacted>"
 partition /mnt/S1   --onpart="UUID=d2481502-4bcd-42ec-b3b2-4e4fa14bd708" --label="S1" --fsoptions="noatime,x-gvfs-show" --noformat
 partition /mnt/S2   --onpart="UUID=f9717af5-a7ee-4721-8295-73283704a9c3" --label="S2" --fsoptions="noatime,x-gvfs-show" --noformat
@@ -83,6 +83,7 @@ helm
 httpie
 jq
 k9s
+kernel-modules-extra
 kind
 kubernetes-client
 libva-utils
