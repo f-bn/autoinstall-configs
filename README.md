@@ -21,7 +21,7 @@ Complemented with dotfiles management via [`chezmoi`](https://github.com/f-bn/do
 |--------|------|----|----------| --------------|
 | **[buran](./desktops/buran/)** | Desktop | Fedora 44 | Custom desktop build | [kickstart.ks](./desktops/buran/fedora/44/kickstart.ks) |
 | **[foton](./laptops/foton/)**  | Laptop | Fedora 44 | Thinkpad P14s Gen 5 | [kickstart.ks](./laptops/foton/fedora/44/kickstart.ks) |
-| **[soyuz](./servers/soyuz/)**  | Server | Fedora CoreOS 43 | Beelink SER5 PRO | [ignition.yaml](./servers/soyuz/ignition.yaml) |
+| **[soyuz](./servers/soyuz/)**  | Server | Fedora CoreOS 44 | Beelink SER5 PRO | [ignition.yaml](./servers/soyuz/ignition.yaml) |
 
 ### Legacy Configurations
 
