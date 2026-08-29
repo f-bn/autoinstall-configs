@@ -1,23 +1,39 @@
-[tasks."tests:foton"]
-description = "Run Ubuntu unattended installation test for 'foton' device"
-run = [
-  "tests/ubuntu/launch.sh --device foton --iso tests/ubuntu/ubuntu-26.04.iso --userdata laptops/foton/ubuntu/26.04/autoinstall.user-data",
-  "rm -rf .cache/foton"
-]
+#---------------------------------------------------------------------
+# Tools
+#---------------------------------------------------------------------
+[tools]
+"aqua:coreos/butane" = "latest"
 
-[tasks."tests:foton:fedora"]
-description = "Run Fedora unattended installation test for 'foton' device"
+#---------------------------------------------------------------------
+# Variables
+#---------------------------------------------------------------------
+[vars]
+fedora_version = 44
+
+#---------------------------------------------------------------------
+# Tasks
+#---------------------------------------------------------------------
+[tasks."tests:foton"]
+description = "Run unattended installation test for 'foton' device"
 run = [
-  "tests/fedora/launch.sh --device foton --iso tests/fedora/fedora-44.iso --kickstart laptops/foton/fedora/44/kickstart.ks",
+  "tests/launch.sh --device foton --iso tests/fedora-{{ vars.fedora_version }}.iso --kickstart laptops/foton/fedora-{{ vars.fedora_version }}.ks",
   "rm -rf .cache/foton"
 ]
 
 [tasks."tests:buran"]
 description = "Run unattended installation test for 'buran' device"
 run = [
-  "tests/ubuntu/launch.sh --device buran --iso tests/ubuntu/ubuntu-26.04.iso --userdata desktops/buran/ubuntu/26.04/autoinstall.user-data",
+  "tests/launch.sh --device buran --iso tests/fedora-{{ vars.fedora_version }}.iso --kickstart desktops/buran/fedora-{{ vars.fedora_version }}.ks",
   "rm -rf .cache/buran"
 ]
+
+[tasks."ignition:transpile"]
+description = "Transpile source Butane Config into an Ignition Config file"
+usage = '''
+arg "<source>" help="Path to source Butane Config file"
+arg "<target>" help="Path where to store transpiled Ignition Config file"
+'''
+run = "butane --pretty --strict {{ usage.source }} > {{ usage.target }}"
 
 [tasks.cleanup]
 description = "Clean up all cached files"

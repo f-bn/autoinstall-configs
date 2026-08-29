@@ -1,4 +1,4 @@
-# - Installation options -
+# - Installer options -
 text
 eula --accept
 firstboot --disabled
@@ -15,7 +15,7 @@ timezone Europe/Paris
 selinux --enforcing
 
 # - Network -
-network --onboot=yes --bootproto="dhcp" --hostname="foton"
+network --onboot=yes --bootproto="dhcp" --hostname="buran"
 
 # - Firewall -
 firewall --enabled
@@ -23,24 +23,26 @@ firewall --enabled
 # - Storage -
 clearpart --drives=nvme0n1 --all
 partition /boot/efi --ondisk=nvme0n1 --fstype=vfat --size=512
-partition /boot     --ondisk=nvme0n1 --fstype=ext4 --size=1024 
-partition /         --ondisk=nvme0n1 --fstype=ext4 --grow --encrypted --passphrase="<redacted>"
+partition /boot     --ondisk=nvme0n1 --fstype=ext4 --size=1024
+partition /         --ondisk=nvme0n1 --fstype=ext4 --grow
+partition /mnt/S1   --onpart="UUID=d2481502-4bcd-42ec-b3b2-4e4fa14bd708" --label="S1" --fsoptions="noatime,x-gvfs-show" --noformat
+partition /mnt/S2   --onpart="UUID=f9717af5-a7ee-4721-8295-73283704a9c3" --label="S2" --fsoptions="noatime,x-gvfs-show" --noformat
 
 # - Graphics -
 xconfig --startxonboot
 
 # - Users and groups -
 rootpw --lock
-user --name=fbobin --gecos="Florian Bobin" --groups="docker,systemd-journal,wheel" --shell="/usr/bin/zsh" --password="<redacted>" --plaintext
+user --name=fbobin --gecos="Florian Bobin" --groups="docker,gamemode,systemd-journal,wheel" --shell="/usr/bin/zsh" --password="dev" --plaintext
 
 # - Authentication -
-authselect select local with-fingerprint with-pam-u2f with-pam-u2f-2fa with-mdns4
+authselect select local with-pam-u2f with-pam-u2f-2fa with-mdns4
 
 # - Kernel options -
-# preempt=full - Fully preemptive kernel for better desktop reponsiveness
+# preempt=full - Fully preemptive kernel for better desktop reponsiveness and latency in gaming
+# split_lock_detect=off - https://github.com/CachyOS/linux-cachyos/issues/555
 # nowatchdog - Disable all kernel watchdogs
-# i915.force_probe=!7d55 xe.force_probe=7d55 xe.enable_psr=0 - Force Xe driver and disable Panel Self Refresh (PSR)
-bootloader --append="preempt=full nowatchdog i915.force_probe=!7d55 xe.force_probe=7d55 xe.enable_psr=0"
+bootloader --append="preempt=full split_lock_detect=off nowatchdog"
 
 # - Repositories -
 repo --name=updates
@@ -52,6 +54,7 @@ repo --name=rpmfusion-nonfree-updates --metalink=https://mirrors.rpmfusion.org/m
 
 # - Packages -
 %packages
+@firefox
 @fonts
 @gnome-desktop
 @hardware-support
@@ -69,47 +72,50 @@ docker-compose
 duf
 fastfetch
 fd-find
-fprintd-pam
+fdk-aac
 fzf
+gamemode
+gamescope
 gawk
 gnome-extensions-app
 gnome-tweaks
 gnome-shell-extension-appindicator
 gnome-shell-extension-dash-to-dock
+gparted
 helm
 httpie
-igt-gpu-tools
-intel-media-driver
 jq
 k9s
-kind
+kernel-modules-extra
 kubernetes-client
-libva-intel-media-driver
 libva-utils
 lm_sensors
+mangohud
 moby-engine
 mycli
-netcat
 nmap
+nmap-ncat
+ntsync-autoload
 nvme-cli
-nvtop
 pamu2fcfg
 pgcli
-pipx
-powertop
+qemu-img
+qemu-kvm-core
 ripgrep
 rpmfusion-free-release
 rpmfusion-nonfree-release
 rsync
-rtl-sdr
 s3cmd
+seahorse
 skopeo
 socat
+steam
 strace
 systemd-container
 tcpdump
 tio
 tree
+uv
 vim-enhanced
 wget2-wget
 wireguard-tools
@@ -143,22 +149,14 @@ zstd
 %end
 
 # - Services -
-services --enabled=docker.socket --disabled=docker.service,flatpak-add-fedora-repos.service
+services --enabled=docker.socket
+services --disabled=auditd.service,docker.service,flatpak-add-fedora-repos.service
 
 # - Post Installation -
 %post --erroronfail --logfile=/var/log/anaconda/post-installation.log --interpreter=/usr/bin/bash
 
 # Third-party packages
-tee /etc/yum.repos.d/brave-browser.repo > /dev/null << 'EOF'
-[brave-browser]
-name=Brave Browser
-baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
-enabled=1
-gpgcheck=1
-gpgkey=https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-EOF
-
-tee /etc/yum.repos.d/vscode.repo > /dev/null << 'EOF'
+tee /etc/yum.repos.d/vscode.repo << 'EOF'
 [vscode]
 name=Visual Studio Code
 baseurl=https://packages.microsoft.com/yumrepos/vscode
@@ -166,8 +164,7 @@ enabled=1
 gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc
 EOF
-
-dnf install -y brave-browser code
+dnf install -y code
 
 # Flatpaks
 FLATPAK_APPS=(
@@ -175,10 +172,13 @@ FLATPAK_APPS=(
     "com.bitwarden.desktop"
     "com.discordapp.Discord"
     "com.github.tchx84.Flatseal"
-    "de.haeckerfelix.Fragments"
-    "io.bassi.Amberol"
+    "com.heroicgameslauncher.hgl"
+    "com.usebottles.bottles"
+    "com.vysp3r.ProtonPlus"
+    "io.github.ilya_zlobintsev.LACT"
     "me.iepure.devtoolbox"
     "net.nokyan.Resources"
+    "org.gnome.Fractal"
     "org.jeffvli.feishin"
     "org.musicbrainz.Picard"
     "org.nicotine_plus.Nicotine"
@@ -188,17 +188,21 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install -y flathub "${FLATPAK_APPS[@]}"
 
 # Kernel modules and drivers
-tee /etc/modprobe.d/blacklist-rtl28xxu.conf > /dev/null << 'EOF'
+tee /etc/modprobe.d/blacklist-amd-watchdog.conf << 'EOF'
 # Generated by Kickstart
-# Blacklist RTL28xx drivers to avoid conflict with Osmocom RTL-SDR drivers
-blacklist dvb_usb_rtl28xxu
+blacklist sp5100_tco
 EOF
+tee /etc/modprobe.d/amdgpu-overdrive.conf << 'EOF'
+# Generated by Kickstart
+options amdgpu ppfeaturemask=0xffffffff
+EOF
+dracut --regenerate-all --force
 
 # GRUB
 grub2-editenv - set menu_auto_hide=1
 
 # sysctl
-tee /etc/sysctl.d/90-zram.conf > /dev/null << 'EOF'
+tee /etc/sysctl.d/90-zram.conf << 'EOF'
 # Generated by Kickstart
 # https://wiki.archlinux.org/title/Zram#Optimizing_swap_on_zram
 vm.swappiness=180
@@ -207,11 +211,8 @@ vm.watermark_boost_factor=0
 vm.watermark_scale_factor=125
 EOF
 
-# auditd
-sed -ie 's|^write_logs =.*|write_logs = no|' /etc/audit/auditd.conf
-
 # systemd-journald
-tee /etc/systemd/journald.conf > /dev/null << 'EOF'
+tee /etc/systemd/journald.conf << 'EOF'
 # Generated by Kickstart
 [Journal]
 Storage=persistent
@@ -221,7 +222,7 @@ RuntimeMaxUse=100M
 EOF
 
 # GDM
-tee /etc/tmpfiles.d/10-gdm-monitors-settings.conf > /dev/null << 'EOF'
+tee /etc/tmpfiles.d/10-gdm-monitors-settings.conf << 'EOF'
 # Generated by Kickstart
 # Applies current desktop scaling value to GDM to avoid it being 'too zoomed-in'
 r /etc/xdg/monitors.xml
@@ -229,7 +230,7 @@ C /etc/xdg/monitors.xml 0644 root root - /home/fbobin/.config/monitors.xml
 EOF
 
 # sudo
-tee /etc/sudoers.d/00-defaults > /dev/null << 'EOF'
+tee /etc/sudoers.d/00-defaults << 'EOF'
 # Generated by Kickstart
 Defaults insults
 Defaults lecture=never
@@ -237,7 +238,7 @@ Defaults passwd_timeout=1
 EOF
 
 # DNF
-tee /etc/dnf/dnf.conf > /dev/null << 'EOF'
+tee /etc/dnf/dnf.conf << 'EOF'
 # Generated by Kickstart
 [main]
 max_parallel_downloads=10
@@ -245,7 +246,7 @@ defaultyes=True
 EOF
 
 # Bluetooth
-tee /etc/bluetooth/main.conf > /dev/null << 'EOF'
+tee /etc/bluetooth/main.conf << 'EOF'
 # Generated by Kickstart
 [Policy]
 AutoEnable=false
@@ -253,14 +254,9 @@ EOF
 
 # Docker
 mkdir -p /etc/docker
-tee /etc/docker/daemon.json > /dev/null << 'EOF'
+tee /etc/docker/daemon.json << 'EOF'
 {
   "cgroup-parent": "docker.slice",
-  "features": {
-    "buildkit": true,
-    "cdi": true,
-    "containerd-snapshotter": true
-  },
   "iptables": true,
   "live-restore": true,
   "log-driver": "local",
@@ -269,26 +265,12 @@ tee /etc/docker/daemon.json > /dev/null << 'EOF'
   "userland-proxy": false
 }
 EOF
-
-# SELinux
 setsebool -P container_manage_cgroup true
 
 # Wrappers
-tee /usr/local/bin/bw > /dev/null << 'EOF'
+tee /usr/local/bin/bw << 'EOF'
 #!/usr/sbin/sh
 exec flatpak run --command=bw com.bitwarden.desktop "$@"
 EOF
 chmod +x /usr/local/bin/bw
-
-tee /usr/local/bin/brave-launcher > /dev/null << 'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-BRAVE_FLAGS_FILE="${HOME}/.config/brave-flags.conf"
-USER_FLAGS=()
-if [[ -f "${BRAVE_FLAGS_FILE}" ]]; then
-  mapfile -t USER_FLAGS < "${BRAVE_FLAGS_FILE}"
-fi
-exec /usr/bin/brave-browser "$@" "${USER_FLAGS[@]-}"
-EOF
-chmod +x /usr/local/bin/brave-launcher
 %end

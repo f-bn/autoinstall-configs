@@ -1,24 +1,10 @@
 {
     "auto_install":[
         {
-            "image": "/ubuntu-**.**-desktop-******.iso",
-            "template": [
-                "/autoinstall/laptops/foton/ubuntu/26.04/autoinstall.user-data",
-                "/autoinstall/desktops/buran/ubuntu/26.04/autoinstall.user-data"
-            ]
-        },
-        {
-            "image": "/ubuntu-**.**-desktop.iso",
-            "template": [
-                "/autoinstall/laptops/foton/ubuntu/26.04/autoinstall.user-data",
-                "/autoinstall/desktops/buran/ubuntu/26.04/autoinstall.user-data"
-            ]
-        },
-        {
             "image": "/fedora-**.iso",
             "template": [
-                "/autoinstall/desktops/buran/fedora/44/kickstart.ks",
-                "/autoinstall/laptops/foton/fedora/44/kickstart.ks"
+                "/autoinstall/desktops/buran/fedora-44.ks",
+                "/autoinstall/laptops/foton/fedora-44.ks"
             ]
         }
     ]
