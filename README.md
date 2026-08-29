@@ -19,9 +19,9 @@ Complemented with dotfiles management via [`chezmoi`](https://github.com/f-bn/do
 
 | Device | Type | OS | Hardware | Configuration |
 |--------|------|----|----------| --------------|
-| **[buran](./desktops/buran/)** | Desktop | Fedora 44 | Custom desktop build | [kickstart.ks](./desktops/buran/fedora44.ks) |
-| **[foton](./laptops/foton/)**  | Laptop | Fedora 44 | Thinkpad P14s Gen 5 | [kickstart.ks](./laptops/foton/fedora44.ks) |
-| **[soyuz](./servers/soyuz/)**  | Server | Fedora CoreOS 44 | Beelink SER5 PRO | [ignition.yaml](./servers/soyuz/ignition.yaml) |
+| **[buran](./desktops/buran/)** | Desktop | Fedora 44 | Custom desktop build | [Kickstart](./desktops/buran/fedora-44.ks) |
+| **[foton](./laptops/foton/)**  | Laptop | Fedora 44 | Thinkpad P14s Gen 5 | [Kickstart](./laptops/foton/fedora-44.ks) |
+| **[soyuz](./servers/soyuz/)**  | Server | Fedora CoreOS 44 | Beelink SER5 PRO | [Ignition](./servers/soyuz/ignition.yaml) |
 
 > [!NOTE]
 > Previously used configurations are stored in the [archive](./archive/) folder.
