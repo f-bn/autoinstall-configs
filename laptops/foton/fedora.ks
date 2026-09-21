@@ -108,7 +108,6 @@ rpmfusion-nonfree-release
 rsync
 rtl-sdr
 s3cmd
-seahorse
 skopeo
 socat
 strace

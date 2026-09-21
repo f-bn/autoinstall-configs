@@ -26,8 +26,8 @@ firewall --enabled
 clearpart --drives=nvme0n1 --all
 partition /boot/efi --ondisk=nvme0n1 --fstype=vfat --size=512
 partition /         --ondisk=nvme0n1 --fstype=ext4 --grow
-partition /mnt/s1   --onpart="UUID=d2481502-4bcd-42ec-b3b2-4e4fa14bd708" --fsoptions="noatime,x-gvfs-show,x-gvfs-name=S1" --noformat
-partition /mnt/s2   --onpart="UUID=f9717af5-a7ee-4721-8295-73283704a9c3" --fsoptions="noatime,x-gvfs-show,x-gvfs-name=S2" --noformat
+# partition /mnt/s1   --onpart="UUID=d2481502-4bcd-42ec-b3b2-4e4fa14bd708" --fsoptions="noatime,x-gvfs-show,x-gvfs-name=S1" --noformat
+# partition /mnt/s2   --onpart="UUID=f9717af5-a7ee-4721-8295-73283704a9c3" --fsoptions="noatime,x-gvfs-show,x-gvfs-name=S2" --noformat
 
 # - Graphics -
 xconfig --startxonboot
@@ -107,7 +107,6 @@ rpmfusion-free-release
 rpmfusion-nonfree-release
 rsync
 s3cmd
-seahorse
 skopeo
 socat
 steam
