@@ -17,6 +17,7 @@ run = [
   "tests/launch.sh {{ usage.device }} {{ usage.version }}",
   "rm -rf .cache/{{ usage.device }}"
 ]
+
 [tasks."ignition:transpile"]
 description = "Transpile source Butane Config into an Ignition Config file"
 usage = '''
