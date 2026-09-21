@@ -3,8 +3,8 @@
         {
             "image": "/fedora-**.iso",
             "template": [
-                "/autoinstall/desktops/buran/fedora-44.ks",
-                "/autoinstall/laptops/foton/fedora-44.ks"
+                "/autoinstall/desktops/buran/fedora.ks",
+                "/autoinstall/laptops/foton/fedora.ks"
             ]
         }
     ]
