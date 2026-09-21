@@ -5,28 +5,18 @@
 "aqua:coreos/butane" = "latest"
 
 #---------------------------------------------------------------------
-# Variables
-#---------------------------------------------------------------------
-[vars]
-fedora_version = 44
-
-#---------------------------------------------------------------------
 # Tasks
 #---------------------------------------------------------------------
-[tasks."tests:foton"]
-description = "Run unattended installation test for 'foton' device"
+[tasks.test]
+description = "Run unattended installation test"
+usage = '''
+flag "-d --device <device>" help="Device configuration to validate" default="buran"
+flag "-v --version <version>" help="Fedora release version" default="44"
+'''
 run = [
-  "tests/launch.sh --device foton --iso tests/fedora-{{ vars.fedora_version }}.iso --kickstart laptops/foton/fedora-{{ vars.fedora_version }}.ks",
-  "rm -rf .cache/foton"
+  "tests/launch.sh {{ usage.device }} {{ usage.version }}",
+  "rm -rf .cache/{{ usage.device }}"
 ]
-
-[tasks."tests:buran"]
-description = "Run unattended installation test for 'buran' device"
-run = [
-  "tests/launch.sh --device buran --iso tests/fedora-{{ vars.fedora_version }}.iso --kickstart desktops/buran/fedora-{{ vars.fedora_version }}.ks",
-  "rm -rf .cache/buran"
-]
-
 [tasks."ignition:transpile"]
 description = "Transpile source Butane Config into an Ignition Config file"
 usage = '''
@@ -35,6 +25,6 @@ arg "<target>" help="Path where to store transpiled Ignition Config file"
 '''
 run = "butane --pretty --strict {{ usage.source }} > {{ usage.target }}"
 
-[tasks.cleanup]
+[tasks.clean]
 description = "Clean up all cached files"
 run = "rm -rf .cache"

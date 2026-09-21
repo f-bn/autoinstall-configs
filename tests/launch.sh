@@ -3,42 +3,43 @@ set -euox pipefail
 
 trap 'exit 130' INT
 
-DEVICE="foton"
-ISO_PATH=""
-KICKSTART_PATH=""
-QEMU_ARGS=()
-
 usage() {
   cat << EOF
-Usage: launch.sh [OPTIONS]
+Usage: launch.sh DEVICE VERSION
 
-Launch a Fedora QEMU virtual machine for testing 'kickstart' configuration.
+Launch a Fedora virtual machine for testing 'kickstart' configuration.
 
-Options: 
-  -h, --help          Display this help message
-  --device NAME       Specify the device name (default: foton)
-  --iso PATH          Path to the Fedora installation ISO
-  --kickstart PATH    Path to the kickstart file
+Arguments:
+  DEVICE     Device name (values: buran, foton)
+  VERSION    Fedora release version (e.g. 44)
 
 Example:
-  launch.sh --device foton --iso /path/to/fedora.iso --kickstart /path/to/ks.cfg
+  launch.sh buran 44
 
 EOF
 }
 
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    -h|--help)
-      usage ; exit 0 ;;
-    --device)
-      DEVICE="$2"; shift 2 ;;
-    --iso)
-      ISO_PATH="$2"; shift 2 ;;
-    --kickstart)
-      KICKSTART_PATH="$2"; shift 2 ;;
-  esac
-done
+if [ $# -ne 2 ]; then
+  usage; exit 1
+fi
 
+DEVICE="$1"
+VERSION="$2"
+
+case "${DEVICE}" in
+  buran)
+    KICKSTART_PATH="${PWD}/desktops/buran/fedora.ks"
+    ;;
+  foton)
+    KICKSTART_PATH="${PWD}/laptops/foton/fedora.ks"
+    ;;
+  *)
+    echo "Unsupported device: ${DEVICE}" >&2
+    exit 1
+    ;;
+esac
+
+ISO_PATH="${PWD}/tests/fedora-${VERSION}.iso"
 CACHE_DIR="${PWD}/.cache/${DEVICE}"
 
 # Setting up cache directory
@@ -67,13 +68,13 @@ QEMU_ARGS=(
   -drive if=pflash,format=raw,readonly=on,file="${CACHE_DIR}/OVMF_CODE.fd"
   -drive if=pflash,format=raw,file="${CACHE_DIR}/OVMF_VARS.fd"
   -drive file="${CACHE_DIR}/seed.img",format=raw,cache=none,if=none,id=seed
-  -drive file="${CACHE_DIR}/disk.img",format=qcow2,cache=none,if=none,id=disk0
+  -drive file="${CACHE_DIR}/disk.img",format=qcow2,cache=unsafe,if=none,id=disk0
   -nic user,model=virtio-net-pci
-  -vga std
+  -vga virtio
 )
 
 # Manage disk interface based on device
-if [ $DEVICE == "foton" ] || [ $DEVICE == "buran" ]; then
+if [ "${DEVICE}" = "foton" ] || [ "${DEVICE}" = "buran" ]; then
   QEMU_ARGS+=(
     -device nvme,drive=disk0,serial=disk0
   )
@@ -83,4 +84,4 @@ else
   )
 fi
 
-exec /usr/bin/qemu-kvm "${QEMU_ARGS[@]}" || exit $? 
+exec /usr/bin/qemu-kvm "${QEMU_ARGS[@]}" || exit $?

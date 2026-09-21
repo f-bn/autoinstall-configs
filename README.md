@@ -19,8 +19,8 @@ Complemented with dotfiles management via [`chezmoi`](https://github.com/f-bn/do
 
 | Device | Type | OS | Hardware | Configuration |
 |--------|------|----|----------| --------------|
-| **[buran](./desktops/buran/)** | Desktop | Fedora 44 | Custom gaming build | [Kickstart](./desktops/buran/fedora-44.ks) |
-| **[foton](./laptops/foton/)**  | Laptop | Fedora 44 | Thinkpad P14s Gen 5 (Intel) | [Kickstart](./laptops/foton/fedora-44.ks) |
+| **[buran](./desktops/buran/)** | Desktop | Fedora 44 | Custom gaming build | [Kickstart](./desktops/buran/fedora.ks) |
+| **[foton](./laptops/foton/)**  | Laptop | Fedora 44 | Thinkpad P14s Gen 5 (Intel) | [Kickstart](./laptops/foton/fedora.ks) |
 | **[soyuz](./servers/soyuz/)**  | Server | Fedora CoreOS 44 | Beelink SER5 PRO | [Ignition](./servers/soyuz/ignition.yaml) |
 
 > [!NOTE]
@@ -32,7 +32,7 @@ Complemented with dotfiles management via [`chezmoi`](https://github.com/f-bn/do
 
 All physical installations leverage Ventoy's `autoinstall` plugin to automatically pass configuration files to the respective installers:
 
-- **Fedora** - Kickstart format (`fedora-*.ks`)
+- **Fedora** - Kickstart format (`fedora.ks`)
 - **Fedora CoreOS** - Ignition format (`ignition.yaml`)
 - **Ubuntu (Desktop/Server)** - Subiquity format (`user-data`, inspired by Cloud-Init)
 
@@ -44,11 +44,11 @@ Create the following structure in the Ventoy partition:
 /autoinstall/
 ├── desktops/
 │   └── buran/
-│       └── fedora-44.ks
+│       └── fedora.ks
 │
 ├── laptops/
 │   └── foton/
-│       └── fedora-44.ks
+│       └── fedora.ks
 │
 /ventoy/
 └── ventoy.json
@@ -64,8 +64,8 @@ Create a [`ventoy.json`](./ventoy.json) file to map ISOs to unattended configura
         {
             "image": "/fedora-**.iso",
             "template": [
-                "/autoinstall/desktops/buran/fedora-44.ks",
-                "/autoinstall/laptops/foton/fedora-44.ks"
+                "/autoinstall/desktops/buran/fedora.ks",
+                "/autoinstall/laptops/foton/fedora.ks"
             ]
         }
     ]
