@@ -105,6 +105,7 @@ mycli
 nmap
 nmap-ncat
 nvme-cli
+oo7-cli
 pamu2fcfg
 pgcli
 powertop

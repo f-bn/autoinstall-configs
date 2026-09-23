@@ -106,6 +106,7 @@ nmap
 nmap-ncat
 ntsync-autoload
 nvme-cli
+oo7-cli
 pamu2fcfg
 pgcli
 qemu-img
