@@ -95,6 +95,7 @@ igt-gpu-tools
 intel-media-driver
 jq
 k9s
+kind
 kernel-modules-extra
 kubernetes-client
 libva-intel-media-driver

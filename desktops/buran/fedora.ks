@@ -95,6 +95,7 @@ helm
 httpie
 jq
 k9s
+kind
 kernel-modules-extra
 kubernetes-client
 libva-utils
