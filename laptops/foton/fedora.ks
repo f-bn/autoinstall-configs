@@ -124,6 +124,7 @@ strace
 systemd-container
 tcpdump
 tio
+tldr
 tree
 uv
 vim-enhanced
