@@ -70,6 +70,7 @@ repo --name=rpmfusion-nonfree-updates --metalink=https://mirrors.rpmfusion.org/m
 @printing
 @workstation-product
 
+aria2
 bind-utils
 cascadia-fonts-all
 chezmoi
