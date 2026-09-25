@@ -71,6 +71,7 @@ QEMU_ARGS=(
   -drive file="${CACHE_DIR}/disk.img",format=qcow2,cache=unsafe,if=none,id=disk0
   -nic user,model=virtio-net-pci
   -vga virtio
+  -display gtk,gl=on
 )
 
 # Manage disk interface based on device
