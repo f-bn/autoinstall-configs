@@ -260,7 +260,6 @@ mkdir -p /etc/docker
 tee /etc/docker/daemon.json << 'EOF'
 {
   "cgroup-parent": "docker.slice",
-  "iptables": true,
   "live-restore": true,
   "log-driver": "local",
   "max-concurrent-downloads": 5,
