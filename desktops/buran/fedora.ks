@@ -187,7 +187,6 @@ FLATPAK_APPS=(
     "com.usebottles.bottles"
     "com.vysp3r.ProtonPlus"
     "io.github.ilya_zlobintsev.LACT"
-    "me.iepure.devtoolbox"
     "net.nokyan.Resources"
     "org.gnome.Fractal"
     "org.jeffvli.feishin"

@@ -184,7 +184,6 @@ FLATPAK_APPS=(
     "com.discordapp.Discord"
     "com.github.tchx84.Flatseal"
     "com.usebottles.bottles"
-    "me.iepure.devtoolbox"
     "net.nokyan.Resources"
     "org.gnome.Fractal"
     "org.jeffvli.feishin"
